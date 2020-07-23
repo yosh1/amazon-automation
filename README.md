@@ -1,2 +1,17 @@
 # Amazon Automation
-It is amazon auto buy bot.
+
+Script to make an automatic purchase on Amazon.com
+
+---
+
+## Copy `.env`
+
+```
+$ cp .env.sample .env
+```
+
+## Run
+
+```
+$ python3 main.py
+```
