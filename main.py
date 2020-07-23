@@ -1,19 +1,26 @@
 #coding: utf-8
 
 import time
+import os
+from os.path import join, dirname
 from datetime import datetime
 from selenium import webdriver
+from dotenv import load_dotenv
 
-LOGIN_ID = '[メールアドレス]'
-LOGIN_PASSWORD = '[パスワード]'
+load_dotenv(verbose=True)
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-ITEM_URL = 'https://www.amazon.co.jp/dp/??????????????????'    # 商品URL
-
+LOGIN_MAIL = os.environ.get("MAIL_ADDRESS")
+LOGIN_PASSWORD = os.environ.get("PASSWORD")
+ITEM_URL = os.environ.get("ITEM_URL")
 ACCEPT_SHOP = 'Amazon'
 LIMIT_VALUE = 33500    # 最低金額
 
+
 def l(str):
-    print("%s : %s"%(datetime.now().strftime("%Y/%m/%d %H:%M:%S"),str))
+    print("%s : %s" % (datetime.now().strftime("%Y/%m/%d %H:%M:%S"), str))
+
 
 if __name__ == '__main__':
 
@@ -29,14 +36,12 @@ if __name__ == '__main__':
         # 在庫確認
         while True:
             try:
-                # 販売元確認
                 shop = b.find_element_by_id('merchant-info').text
                 shop = shop.split('が販売')[0].split('この商品は、')[1]
 
                 if ACCEPT_SHOP not in shop:
                     raise Exception("not Amazon.")
 
-                # カードに入れる
                 b.find_element_by_id('add-to-cart-button').click()
                 break
             except:
@@ -49,7 +54,7 @@ if __name__ == '__main__':
 
         # ログイン
         try:
-            b.find_element_by_id('ap_email').send_keys(LOGIN_ID)
+            b.find_element_by_id('ap_email').send_keys(LOGIN_MAIL)
             b.find_element_by_id('ap_password').send_keys(LOGIN_PASSWORD)
             b.find_element_by_id('signInSubmit').click()
         except:
