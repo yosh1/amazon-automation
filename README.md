@@ -2,7 +2,7 @@
 
 Example: script to buy the PS5 on Amazon 
 
-forked from yosh1/amazon-automation. 
+forked from yosh1/amazon-automation & druyang/amazon-PS5-automation
 
 Use at your own risk
 
