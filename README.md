@@ -1,6 +1,6 @@
 # Amazon Purchase Script 
 
-Example: script to buy the PS5 on Amazon 
+Example: script to buy the things on Amazon 
 
 forked from yosh1/amazon-automation & druyang/amazon-PS5-automation
 
