@@ -1,4 +1,4 @@
-# Amazon Automation
+# Amazon PS5 Automation
 
 Script to make an automatic purchase (PS5) on Amazon.com
 
