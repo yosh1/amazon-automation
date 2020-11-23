@@ -11,6 +11,7 @@ Requirements:
 
 * Python 3 
 * Selenium 
+* [WebDriver for Chrome](https://sites.google.com/a/chromium.org/chromedriver/downloads) in same directory 
 * dotenv
 
 Recommended to be run on Linux or Max. Would be a good script to run on a raspberry pi or server
