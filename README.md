@@ -22,7 +22,8 @@ Notes of caution:
 Things to check for on Amazon/potential edge cases: 
 
  * Amazon 2FA 
- * Default address / payment method 
+ * Default address / payment method - fixed with 1-click buy.
+ * To do:  loop this until item becomes available
  * Captchas for hitting Amazon's server a lot
 
 ---
