@@ -13,7 +13,7 @@ Requirements:
 * Selenium 
 * dotenv
 
-Recommended to be run on Linux or Max. Would be a good script to run on a raspberry pi 
+Recommended to be run on Linux or Max. Would be a good script to run on a raspberry pi or server
 
 Notes of caution: 
 --- 
@@ -37,3 +37,11 @@ $ cp .env.sample .env
 ```
 $ python3 main.py
 ```
+
+Alternatively use Docker: 
+
+```
+$ docker-compose build
+$ docker-compose up -d
+```
+
