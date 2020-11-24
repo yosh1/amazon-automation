@@ -1,8 +1,8 @@
 # Amazon Purchase Script 
 
-Example: script to buy the PS5 on Amazon 
+Example: script to buy the things on Amazon 
 
-forked from yosh1/amazon-automation. 
+forked from yosh1/amazon-automation & druyang/amazon-PS5-automation
 
 Use at your own risk
 
@@ -22,7 +22,7 @@ Notes of caution:
 Things to check for on Amazon/potential edge cases: 
 
  * Amazon 2FA 
- * Default address / payment method 
+ * Default address / payment method - fixed with 1-click buy - to do:  need to verify logged in and authenticated
  * Captchas for hitting Amazon's server a lot
 
 ---
