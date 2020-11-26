@@ -4,13 +4,15 @@ Script to make an automatic purchase on Amazon.com
 
 ---
 
-## Copy `.env`
+## How to run
+
+### Copy and edit `.env` file
 
 ```
 $ cp .env.sample .env
 ```
 
-## Run
+### Run
 
 ```
 $ python3 main.py
