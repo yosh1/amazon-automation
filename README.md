@@ -17,3 +17,7 @@ $ cp .env.sample .env
 ```
 $ python3 main.py
 ```
+
+## License
+
+Under MIT License.
