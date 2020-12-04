@@ -18,6 +18,13 @@ $ cp .env.sample .env
 $ python3 main.py
 ```
 
+Alternatively use Docker:
+
+```
+$ docker-compose build
+$ docker-compose up -d
+```
+
 ## License
 
 Under MIT License.
