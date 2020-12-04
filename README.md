@@ -4,6 +4,13 @@ Script to make an automatic purchase on Amazon.com
 
 ---
 
+## Requirements
+
+- Python3 (but not supported v3.9 higher)
+  - Selenium
+  - dotenv
+- Linux or Mac (Would be a good script to run on a raspberry pi or server)
+
 ## How to run
 
 ### Copy and edit `.env` file
