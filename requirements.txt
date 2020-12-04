@@ -1,0 +1,4 @@
+selenium~=3.141.0
+logger~=1.4
+python-dotenv~=0.15.0
+amazoncaptcha~=0.5.0
