@@ -13,6 +13,8 @@ Script to make an automatic purchase on Amazon.com
 
 ## How to run
 
+※ Make sure you have 2FA (two factor authentication) turned off on your Amazon account!
+
 ### Copy and edit `.env` file
 
 ```
