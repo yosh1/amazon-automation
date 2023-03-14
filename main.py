@@ -24,6 +24,11 @@ def l(str):
 
 if __name__ == '__main__':
 
+    # 環境変数のチェック
+    if LOGIN_MAIL is None or LOGIN_PASSWORD is None or ITEM_URL is None:
+        l('環境変数が正しく設定されていません')
+        exit()
+
     # ブラウザの起動
     try:
         b = webdriver.Chrome('./chromedriver')
@@ -58,13 +63,13 @@ if __name__ == '__main__':
             b.find_element_by_id('ap_password').send_keys(LOGIN_PASSWORD)
             b.find_element_by_id('signInSubmit').click()
         except:
-            l('LOGIN PASS.')
+            l('ログインに失敗しました')
             pass
 
         # 値段の確認
         p = b.find_element_by_css_selector('td.grand-total-price').text
         if int(p.split(' ')[1].replace(',', '')) > LIMIT_VALUE:
-            l('PLICE IS TOO LARGE.')
+            l('価格が制限を超えています')
             continue
 
         # 注文の確定
