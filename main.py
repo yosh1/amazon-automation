@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 import time
 import os
@@ -6,74 +6,88 @@ from os.path import join, dirname
 from datetime import datetime
 from selenium import webdriver
 from dotenv import load_dotenv
+from selenium.common.exceptions import NoSuchElementException
 
+# 環境変数のロード
 load_dotenv(verbose=True)
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-LOGIN_MAIL = os.environ.get("MAIL_ADDRESS")
-LOGIN_PASSWORD = os.environ.get("PASSWORD")
-ITEM_URL = os.environ.get("ITEM_URL")
+# 環境変数の取得
+LOGIN_MAIL = os.getenv("MAIL_ADDRESS")
+LOGIN_PASSWORD = os.getenv("PASSWORD")
+ITEM_URL = os.getenv("ITEM_URL")
 ACCEPT_SHOP = 'Amazon'
-LIMIT_VALUE = 33500    # 最低金額
+LIMIT_VALUE = 33500 # 最低金額
 
+def log_message(message):
+    """ ログメッセージを出力する関数 """
+    print(f"{datetime.now().strftime('%Y/%m/%d %H:%M:%S')} : {message}")
 
-def l(str):
-    print("%s : %s" % (datetime.now().strftime("%Y/%m/%d %H:%M:%S"), str))
-
-
-if __name__ == '__main__':
-
-    # 環境変数のチェック
-    if LOGIN_MAIL is None or LOGIN_PASSWORD is None or ITEM_URL is None:
-        l('環境変数が正しく設定されていません')
+def check_environment_variables():
+    """ 環境変数のチェックを行う関数 """
+    if None in (LOGIN_MAIL, LOGIN_PASSWORD, ITEM_URL):
+        log_message('環境変数が正しく設定されていません')
         exit()
 
-    # ブラウザの起動
+def initialize_browser():
+    """ ブラウザを起動する関数 """
     try:
-        b = webdriver.Chrome('./chromedriver')
-        b.get(ITEM_URL)
-    except:
-        l('Failed to open browser.')
+        browser = webdriver.Chrome('./chromedriver')
+        browser.get(ITEM_URL)
+        return browser
+    except Exception as e:
+        log_message(f'Failed to open browser: {e}')
         exit()
+
+def main():
+    check_environment_variables()
+    browser = initialize_browser()
 
     while True:
-        # 在庫確認
         while True:
             try:
-                shop = b.find_element_by_id('merchant-info').text
-                shop = shop.split('が販売')[0].split('この商品は、')[1]
+                shop_info = browser.find_element_by_id('merchant-info').text
+                shop_name = shop_info.split('が販売')[0].split('この商品は、')[1]
 
-                if ACCEPT_SHOP not in shop:
+                if ACCEPT_SHOP not in shop_name:
                     raise Exception("not Amazon.")
 
-                b.find_element_by_id('add-to-cart-button').click()
+                browser.find_element_by_id('add-to-cart-button').click()
                 break
-            except:
+            except NoSuchElementException:
                 time.sleep(60)
-                b.refresh()
+                browser.refresh()
 
         # 購入手続き
-        b.get('https://www.amazon.co.jp/gp/cart/view.html/ref=nav_cart')
-        b.find_element_by_name('proceedToCheckout').click()
+        browser.get('https://www.amazon.co.jp/gp/cart/view.html/ref=nav_cart')
+        browser.find_element_by_name('proceedToCheckout').click()
 
         # ログイン
         try:
-            b.find_element_by_id('ap_email').send_keys(LOGIN_MAIL)
-            b.find_element_by_id('ap_password').send_keys(LOGIN_PASSWORD)
-            b.find_element_by_id('signInSubmit').click()
-        except:
-            l('ログインに失敗しました')
-            pass
+            browser.find_element_by_id('ap_email').send_keys(LOGIN_MAIL)
+            browser.find_element_by_id('ap_password').send_keys(LOGIN_PASSWORD)
+            browser.find_element_by_id('signInSubmit').click()
+        except NoSuchElementException:
+            log_message('ログインに失敗しました')
+            continue
 
         # 値段の確認
-        p = b.find_element_by_css_selector('td.grand-total-price').text
-        if int(p.split(' ')[1].replace(',', '')) > LIMIT_VALUE:
-            l('価格が制限を超えています')
+        try:
+            price_text = browser.find_element_by_css_selector('td.grand-total-price').text
+            price = int(price_text.split(' ')[1].replace(',', ''))
+            if price > LIMIT_VALUE:
+                log_message('価格が制限を超えています')
+                continue
+        except NoSuchElementException:
+            log_message('価格の取得に失敗しました')
             continue
 
         # 注文の確定
-        b.find_element_by_name('placeYourOrder1').click()
+        browser.find_element_by_name('placeYourOrder1').click()
         break
 
-    l('ALL DONE.')
+    log_message('ALL DONE.')
+
+if __name__ == '__main__':
+    main()
